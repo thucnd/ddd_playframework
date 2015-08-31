@@ -8,16 +8,19 @@
 // 'test/spec/**/*.js'
 
 module.exports = function (grunt) {
-
+	
+	// Load grunt tasks automatically
+  require('load-grunt-tasks')(grunt);
+  
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
   // Automatically load required Grunt tasks
-  require('jit-grunt')(grunt, {
+/*require('jit-grunt')(grunt, {
     useminPrepare: 'grunt-usemin',
     ngtemplates: 'grunt-angular-templates',
     cdnify: 'grunt-google-cdn'
-  });
+  });*/
 
   // Configurable paths for the application
   var appConfig = {
@@ -86,19 +89,26 @@ module.exports = function (grunt) {
       livereload: {
         options: {
           open: true,
+
           middleware: function (connect) {
-            return [
-              connect.static('.tmp'),
-              connect().use(
-                '/bower_components',
-                connect.static('./bower_components')
-              ),
-              connect().use(
-                '/app/styles',
-                connect.static('./app/styles')
-              ),
-              connect.static(appConfig.app)
-            ];
+            var middlewares = [];
+
+            // Setup the proxy
+            middlewares.push(require('grunt-connect-proxy/lib/utils').proxyRequest);
+
+            // Serve static files
+            middlewares.push(connect.static('.tmp'));
+            middlewares.push(connect().use(
+              '/bower_components',
+              connect.static('./bower_components')
+            ));
+            middlewares.push(connect().use(
+              '/app/styles',
+              connect.static('./app/styles')
+            ));
+            middlewares.push(connect.static(appConfig.app));
+
+            return middlewares;
           }
         }
       },
@@ -427,6 +437,7 @@ module.exports = function (grunt) {
       'wiredep',
       'concurrent:server',
       'autoprefixer:server',
+	  'configureProxies:server',
       'connect:livereload',
       'watch'
     ]);
