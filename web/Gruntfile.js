@@ -8,19 +8,19 @@
 // 'test/spec/**/*.js'
 
 module.exports = function (grunt) {
-  // Load grunt tasks automatically
+
+	// Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
-  // Automatically load required Grunt tasks REMOVE IT
-  //require('jit-grunt')(grunt, {
-  //  useminPrepare: 'grunt-usemin',
-  //  ngtemplates: 'grunt-angular-templates',
-  //  cdnify: 'grunt-google-cdn'
-  //});
-
+  // Automatically load required Grunt tasks
+/*require('jit-grunt')(grunt, {
+    useminPrepare: 'grunt-usemin',
+    ngtemplates: 'grunt-angular-templates',
+    cdnify: 'grunt-google-cdn'
+  });*/
 
   // Configurable paths for the application
   var appConfig = {
@@ -452,7 +452,7 @@ module.exports = function (grunt) {
       'wiredep',
       'concurrent:server',
       'autoprefixer:server',
-      'configureProxies:server',
+  	  'configureProxies:server',
       'connect:livereload',
       'watch'
     ]);
