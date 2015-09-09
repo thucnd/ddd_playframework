@@ -2,8 +2,19 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET     /                           controllers.Application.index
+
+#Login
+POST        /app/login              @controllers.login.LoginController.login
+
+#Logout
+POST        /app/logout             @controllers.login.LoginController.logout
+
+#Sign Up
+POST        /app/register           @controllers.signup.SignUpController.register
+
+# Comment
+GET         /app/commentList        @controllers.comment.CommentController.list(page: Option[Int])
+POST        /app/createComment      @controllers.comment.CommentController.create
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file           controllers.Assets.versioned(path="/public", file: Asset)

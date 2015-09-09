@@ -8,28 +8,33 @@
  *
  * Main module of the application.
  */
-angular
+var app = angular
   .module('webApp', [
-    'ngAnimate',
-    'ngCookies',
-    'ngResource',
+    //'ngAnimate',
+    //'ngCookies',
+    //'ngResource',
     'ngRoute',
-    'ngSanitize',
-    'ngTouch'
+    'routeStyles',
+    //'ngSanitize',
+    //'ngTouch',
+    'blockUI',
+    'ui.bootstrap'
   ])
-  .config(function ($routeProvider) {
+  .config(['$routeProvider', function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl',
-        controllerAs: 'main'
+        templateUrl: 'views/board/main.html',
+        controller: 'DashboardCtrl',
+        controllerAs: 'Dashboard',
+        css: 'styles/blog.css'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
+      .when('/login', {
+        templateUrl: 'views/login/main.html',
+        controller: 'LoginCtrl',
+        controllerAs: 'Login',
+        css: 'styles/login.css'
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/login'
       });
-  });
+  }]);

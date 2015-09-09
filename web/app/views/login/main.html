@@ -1,0 +1,59 @@
+<div id="element-box" class="login-box">
+  <div class="alert alert-danger" role="alert" ng-show="message.length > 0">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    {{message}}
+  </div>
+  <div class="alert alert-success" role="alert" ng-show="successMessage.length > 0">
+    {{successMessage}}
+  </div>
+  <form name="form" class="css-form" novalidate>
+    <div class="login-form">
+      <div class="login-title">
+        <h3>
+          <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+          <b>Login</b>
+        </h3>
+      </div>
+
+      <div ng-show="form.$submitted || form.name.$touched">
+        <span class="error box-line" ng-show="form.email.$error.required">Tell us your email.</span>
+        <span class="error box-line" ng-show="form.email.$error.email">This is not a valid email.</span>
+      </div>
+      <div class="box-line">
+        <input
+          type="email"
+          name="email"
+          placeholder="Enter your email "
+          class="form-control"
+          ng-model="email "
+          required="required"
+          type="text">
+      </div>
+
+      <div ng-show="form.$submitted || form.password.$touched">
+        <span class="error box-line" ng-show="form.password.$error.required">Tell us your password.</span>
+        <span class="error box-line" ng-show="form.password.$error.maxlength || form.password.$error.minlength">Password must be 8 to 16 characters</span>
+      </div>
+      <div class="box-line">
+        <input
+          type="password"
+          name="password"
+          placeholder="Enter your password"
+          class="form-control"
+          ng-model="password "
+          required="required"
+          maxlength="16"
+          minlength="8"
+          type="text">
+      </div>
+      <div class="box-line">
+        <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="login(form.$valid);">Log in</button>
+      </div>
+      <div class="box-line">
+        <div ng-include src="'views/signup/modal.html'"></div>
+      </div>
+    </div>
+  </form>
+</div>
+

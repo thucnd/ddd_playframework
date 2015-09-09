@@ -146,5 +146,9 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="SBT: com.typesafe.play:play-slick_2.11:1.0.1:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.typesafe.slick:slick_2.11:3.0.1:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.zaxxer:HikariCP-java6:2.3.7:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.reactivestreams:reactive-streams:1.0.0:jar" level="project" />
   </component>
 </module>

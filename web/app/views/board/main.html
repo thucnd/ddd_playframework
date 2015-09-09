@@ -1,0 +1,31 @@
+<div class="blog-masthead">
+  <div class="container" ng-include src="'views/headers/header.html'"></div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="blog-main">
+      <div class="blog-post">
+        <div ng-include src="'views/users/detail.html'"></div>
+        <div ng-include src="'views/board/form.html'"></div>
+        <div class="panel panel-default blog-post" ng-repeat="comment in comments">
+          <div class="panel-body">
+            <div class="blog-info"><b>Author: </b>{{comment.name}}</div>
+            <div class="blog-info"><b>Email: </b>{{comment.email}}</div>
+            <div class="blog-info"><b>Date: </b>{{comment.created}}</div>
+            <div class="blog-post-body">
+              <p ng-bind-html="displayHtml(comment.body);"></p>
+            </div>
+          </div>
+        </div>
+        <ul class="pager">
+          <li ng-show="currentPage > 1" ng-click="previous();"><span class="board-page">Previous</span></li>
+          <li ng-show="comments.length >= maxComment" ng-click="next();"><span class="board-page">Next</span></li>
+        </ul>
+      </div>
+      <!-- /.blog-main -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container -->
+</div>
+

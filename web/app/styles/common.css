@@ -1,0 +1,46 @@
+.box-line{
+    display: block;
+    margin: 10px 0;
+}
+
+.box-left{
+    float: left;
+}
+
+.box-right{
+    float: right;
+}
+
+.box-clear {
+    clear:both;
+}
+
+.css-form input.ng-invalid.ng-touched {
+    border-color: red;
+}
+
+.error {
+    font-size: 11px;
+    color: red;
+    font-weight: bolder;
+}
+
+.blog-comment-text {
+    font-size: 10px;
+    font-style: italic;
+}
+
+.login-title {
+    color: #1abc9c;
+}
+
+.register-title {
+    font-weight : bold ;
+    font-size : 16px ;
+}
+
+.user-detail {
+    font-size: 12px;
+    margin-right: 5px;
+    color: #2494be;
+}

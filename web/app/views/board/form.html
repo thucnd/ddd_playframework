@@ -1,0 +1,55 @@
+<div ng-controller="CommentCtrl">
+  <div class="box-line">
+    <span ng-click="showHideForm();" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-edit"></i></span>
+  </div>
+  <div class="panel panel-default blog-post">
+    <div class="panel-body" ng-show="newComment">
+      <div class="alert alert-danger box-line" role="alert" ng-show="message.length > 0">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        {{message}}
+      </div>
+      <div class="box-line">
+        <form novalidate name="form">
+          <dl class="dl-horizontal">
+            <dt>Name:</dt>
+            <dd>
+              {{member.name}}
+            </dd>
+            <br>
+            <dt>Email:</dt>
+            <dd>
+              {{member.email}}
+            </dd>
+
+            <br>
+            <dt>Comments:</dt>
+            <dd>
+              <div ng-show="(form.$submitted || form.name.$touched) && error">
+                <span class="error" ng-show="form.body.$error.required">Comments is required.</span>
+              </div>
+              <div class="box-line">
+                            <textarea
+                              name="body"
+                              placeholder="Enter your details"
+                              class="form-control"
+                              ng-model="body"
+                              required="required"
+                              rows="5"
+                              maxlength="500"
+                              type="text"></textarea>
+              </div>
+              <div class="blog-comment-text">Maximum 500 characters</div>
+            </dd>
+
+            <br>
+            <dt></dt>
+            <dd>
+              <input ng-click="createComment(form.$valid);" class="btn btn-info" type="submit" value="Create New">
+            </dd>
+          </dl>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

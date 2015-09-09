@@ -17,11 +17,7 @@ lazy val application = (project in file("application"))
     libraryDependencies ++= Seq(
       jdbc,
       cache,
-      "org.scalikejdbc" %% "scalikejdbc" % "2.2.6",
-      "org.scalikejdbc" %% "scalikejdbc-config" % "2.2.6",
-      "org.scalikejdbc" %% "scalikejdbc-play-initializer" % "2.4.+",
-      "com.typesafe.play" %% "anorm" % "2.4.0",
-      "mysql" % "mysql-connector-java" % "5.1.34",
+      ws,
       evolutions
     ),
     // Play provides two styles of routers, one expects its actions to be injected, the
@@ -36,7 +32,8 @@ lazy val domain = (project in file("domain"))
     scalaSource in Test := baseDirectory.value / "src" / "test" / "scala",
     libraryDependencies ++= Seq(
       "com.typesafe.play" %% "anorm" % "2.4.0"
-    )
+    ),
+    parallelExecution in Test := false
   )
 
 lazy val infrastructure = (project in file("infrastructure"))
@@ -45,6 +42,7 @@ lazy val infrastructure = (project in file("infrastructure"))
     scalaSource in Test := baseDirectory.value / "src" / "test" / "scala",
     libraryDependencies ++= Seq(
       "com.typesafe.play" %% "anorm" % "2.4.0",
+      "com.typesafe.play" %% "play-slick" % "1.0.1",
       "mysql" % "mysql-connector-java" % "5.1.34"
     ),
     parallelExecution in Test := false

@@ -1,0 +1,93 @@
+<form novalidate name="form" >
+    <div class="modal-header">
+        <div class="login-title">
+            <h3>
+                <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+                <b>Register</b>
+            </h3>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="error" ng-show="message.length > 0">
+            {{message}}
+        </div>
+        <div class="box-line register-title">
+            Name
+        </div>
+        <div ng-show="form.$submitted || form.name.$touched">
+            <span class="error" ng-show="form.name.$error.required">Tell us your name.</span>
+        </div>
+        <div class="box-line">
+            <input
+            name="name"
+            placeholder="Enter your name"
+            class="form-control"
+            ng-model="name"
+            required="required"
+            maxlength="20"
+            type="text">
+        </div>
+        <div class="blog-comment-text">Maximum 20 characters</div>
+
+        <div class="box-line register-title">
+             Email
+        </div>
+        <div ng-show="form.$submitted || form.name.$touched">
+            <span class="error" ng-show="form.email.$error.required">Tell us your email.</span>
+            <span class="error" ng-show="form.email.$error.email">This is not a valid email.</span>
+        </div>
+        <div class="box-line">
+            <input
+            type="email"
+            name="email"
+            placeholder="Enter your email "
+            class="form-control"
+            ng-model="email "
+            required="required"
+            type="text">
+        </div>
+
+        <div class="box-line register-title">
+            Password
+        </div>
+        <div ng-show="form.$submitted || form.password.$touched">
+            <span class="error" ng-show="form.password.$error.required">Tell us your password.</span>
+            <span class="error" ng-show="form.password.$error.maxlength || form.password.$error.minlength">Password must be 8 to 16 characters</span>
+        </div>
+        <div class="box-line">
+            <input
+            type="password"
+            name="password"
+            placeholder="Enter your password"
+            class="form-control"
+            ng-model="password "
+            required="required"
+            maxlength="16"
+            minlength="8"
+            type="text">
+        </div>
+
+        <div class="box-line register-title">
+            Re-Password
+        </div>
+
+        <div ng-show="form.$submitted">
+            <span class="error" ng-show="password != repassword">Password & Re-Password are diffrent.</span>
+        </div>
+        <div class="box-line">
+            <input
+            type="password"
+            name="repassword"
+            placeholder="Enter your re-password"
+            class="form-control"
+            ng-model="repassword "
+            type="text">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <input ng-click="register(form.$valid);" class="btn btn-info" type="submit" value="Register">
+        <button class="btn btn-warning" ng-click="cancel();">Cancel</button>
+    </div>
+</form>
+
+
