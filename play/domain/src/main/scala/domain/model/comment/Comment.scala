@@ -26,6 +26,8 @@ trait Comment {
     case that: Comment => that.id == this.id
     case _ => false
   }
+
+  override def hashCode = 31 * id.##
 }
 
 // Factory Method
@@ -47,7 +49,7 @@ object Comment {
 
   // For create new Factory
   // Name Should be def create() or def apply()
-  def apply(memberId: String,
+  def create(memberId: String,
             name: String,
             email: String,
             body: String): Comment =

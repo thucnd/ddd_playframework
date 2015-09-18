@@ -15,6 +15,8 @@ trait Member {
     case that: Member => that.id == this.id
     case _ => false
   }
+
+  override def hashCode = 31 * id.##
 }
 
 // Factory Method
@@ -30,7 +32,7 @@ object Member {
   )
 
   // Name should be def create() or def apply()
-  def apply(name: String,
+  def create(name: String,
             email: String,
             password: String): Member = MemberImpl(
     id = MemberId(UUID.randomUUID().toString),

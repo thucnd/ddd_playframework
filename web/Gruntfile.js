@@ -15,13 +15,6 @@ module.exports = function (grunt) {
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
-  // Automatically load required Grunt tasks
-/*require('jit-grunt')(grunt, {
-    useminPrepare: 'grunt-usemin',
-    ngtemplates: 'grunt-angular-templates',
-    cdnify: 'grunt-google-cdn'
-  });*/
-
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
@@ -80,7 +73,7 @@ module.exports = function (grunt) {
       },
       proxies: [
         {
-          context: '/app', // the context of the data service
+          context: ['/comment', '/member', '/app'], // the context of the data service
           host: 'localhost', // wherever the data service is running
           port: 9090, // the port that the data service is running on
           changeOrigin: true

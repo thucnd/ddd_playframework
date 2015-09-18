@@ -6,9 +6,7 @@
   <div class="row">
     <div class="blog-main">
       <div class="blog-post">
-
-        <div ng-include src="'views/board/form.html'"></div>
-        <div class="panel panel-default blog-post" ng-repeat="comment in comments">
+        <div class="panel panel-default blog-post">
           <div class="panel-body">
             <div class="blog-info">
               <ul class="list-inline">
@@ -20,18 +18,8 @@
             <div class="blog-post-body">
               <p ng-bind-html="displayHtml(comment.body);"></p>
             </div>
-            <div class="blog-info">
-              <ul class="list-inline">
-                <li class="blog-view"><a href="view/{{comment.id}}"><span class="glyphicon glyphicon-list-alt"></span> View</a></li>
-                <li class="blog-view"><span class="glyphicon glyphicon-trash"></span> Remove</li>
-              </ul>
-            </div>
           </div>
         </div>
-        <ul class="pager">
-          <li ng-show="currentPage > 1" ng-click="previous();"><span class="board-page">Previous</span></li>
-          <li ng-show="comments.length >= maxComment" ng-click="next();"><span class="board-page">Next</span></li>
-        </ul>
       </div>
       <!-- /.blog-main -->
     </div>

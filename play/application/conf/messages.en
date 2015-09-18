@@ -1,0 +1,4 @@
+exception.password.invalid=Thu tieng anh
+exception.userOrPassword.invalid=User or password invalid
+exception.user.existing=User already existing
+exception.user.inputInvalid=User Input incorrect

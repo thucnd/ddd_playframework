@@ -4,17 +4,19 @@
 
 
 #Login
-POST        /app/login              @controllers.login.LoginController.login
+POST        /member/login              @controllers.login.LoginController.login
 
 #Logout
-POST        /app/logout             @controllers.login.LoginController.logout
+POST        /member/logout             @controllers.login.LoginController.logout
+GET         /member/currentMember      @controllers.member.MemberController.currentMember
 
 #Sign Up
-POST        /app/register           @controllers.signup.SignUpController.register
+POST        /member/register           @controllers.signup.SignUpController.register
 
 # Comment
-GET         /app/commentList        @controllers.comment.CommentController.list(page: Option[Int])
-POST        /app/createComment      @controllers.comment.CommentController.create
+GET         /comment/list        @controllers.comment.CommentController.list(page: Option[Int])
+GET         /comment/detail      @controllers.comment.CommentController.view(commentId: Option[String])
+POST        /comment/create      @controllers.comment.CommentController.create
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file           controllers.Assets.versioned(path="/public", file: Asset)

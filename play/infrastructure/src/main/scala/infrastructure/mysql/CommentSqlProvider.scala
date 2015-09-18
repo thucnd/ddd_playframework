@@ -71,5 +71,40 @@ class CommentSqlProvider extends SqlProvider {
         ).executeUpdate()
     }
   }
+
+  /**
+   * get comment detail by Id
+   * @param id
+   * @return
+   */
+  override def selectById(id: String): Option[Map[String, String]] = {
+    DB.withConnection { implicit connection =>
+      SQL(
+        """
+          SELECT     comments.comment_id,
+                     comments.member_id,
+                     comments.created,
+                     comments.body,
+                     members.name,
+                     members.email
+          FROM       comments
+          INNER JOIN members
+          ON         members.member_id = comments.member_id
+          WHERE      comments.comment_id = {comment_id}
+        """)
+        .on(
+          'comment_id -> id
+        ).singleOpt().map { row =>
+        Map(
+          "comment_id" -> row[String]("comments.comment_id"),
+          "member_id" -> row[String]("comments.member_id"),
+          "name" -> row[String]("members.name"),
+          "email" -> row[String]("members.email"),
+          "body" -> row[String]("comments.body"),
+          "created" -> row[DateTime]("comments.created").toString("yyyy-MM-dd HH:mm")
+        )
+      }
+    }
+  }
 }
 

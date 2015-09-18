@@ -41331,33 +41331,32 @@ angular.module("ui.bootstrap",["ui.bootstrap.tpls","ui.bootstrap.collapse","ui.b
  */
 var app = angular
   .module('webApp', [
-    //'ngAnimate',
-    //'ngCookies',
-    //'ngResource',
     'ngRoute',
     'routeStyles',
-    //'ngSanitize',
-    //'ngTouch',
     'blockUI',
     'ui.bootstrap'
   ])
-  .config(['$routeProvider', function ($routeProvider) {
+  .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/board/main.html',
-        controller: 'DashboardCtrl',
-        controllerAs: 'Dashboard',
-        css: 'styles/blog.css'
+        controller: 'DashboardCtrl'
+      })
+      .when('/view/:commentId', {
+        templateUrl: 'views/board/detail.html',
+        controller: 'CommentDetailCtrl'
       })
       .when('/login', {
         templateUrl: 'views/login/main.html',
         controller: 'LoginCtrl',
-        controllerAs: 'Login',
         css: 'styles/login.css'
       })
       .otherwise({
-        redirectTo: '/login'
+        redirectTo: '/404.html'
       });
+
+    $locationProvider.html5Mode(true);
+    $locationProvider.hashPrefix('!');
   }]);
 
 app
@@ -41399,6 +41398,61 @@ angular.module('webApp')
       'Karma'
     ];
   });
+
+app
+  .controller('CommentDetailCtrl', [
+    '$scope',
+    '$http',
+    '$sce',
+    '$routeParams',
+    'blockUI',
+    'COMMON_CONST',
+    'AuthenFactory',
+    'CommentFactory',
+    'MemberFactory',
+    function ($scope,
+              $http,
+              $sce,
+              $routeParams,
+              blockUI,
+              COMMON_CONST,
+              AuthenFactory,
+              CommentFactory,
+              MemberFactory) {
+      $scope.message = "";
+      $scope.member = MemberFactory.get();
+      $scope.comment = {};
+
+      // Display Html
+      $scope.displayHtml = function (text) {
+        return $sce.trustAsHtml(text);
+      }
+
+      /**
+       * check Login information
+       */
+      $scope.view = function () {
+
+        CommentFactory.view($routeParams.commentId)
+          .success(function (data) {
+            var result = angular.fromJson(data);
+
+            if (result.success) {
+              $scope.comment = result.data;
+            }
+          })
+          .error(function (error, status) {
+            AuthenFactory.isAuthenticate(status);
+          });
+      };
+
+
+      $scope.startUp = function(){
+        $scope.view();
+      }
+
+      $scope.startUp();
+    }]);
 
 app
   .controller('CommentCtrl', [
@@ -41485,7 +41539,6 @@ app
     'COMMON_CONST',
     'AuthenFactory',
     'CommentFactory',
-    'MemberFactory',
     function ($scope,
               $http,
               $location,
@@ -41494,13 +41547,11 @@ app
               blockUI,
               COMMON_CONST,
               AuthenFactory,
-              CommentFactory,
-              MemberFactory) {
+              CommentFactory) {
       $scope.currentPage = 1;
       $scope.maxComment = COMMON_CONST.MAX_COMMENT;
       $scope.comments = [];
       $scope.message = "";
-      $scope.member = {};
 
       // Display Html
       $scope.displayHtml = function (text) {
@@ -41515,12 +41566,6 @@ app
         CommentFactory.dl(page)
           .success(function (data) {
             var result = angular.fromJson(data);
-
-            // Update session Information if it null
-            if(angular.isUndefined($scope.member.email) || $scope.member.email == '') {
-              MemberFactory.set(result.session)
-              $scope.member = MemberFactory.get();
-            }
 
             if (result.success) {
               $scope.currentPage = page;
@@ -41546,7 +41591,7 @@ app
         $scope.getCommentList($scope.currentPage - 1);
       };
 
-      $scope.startUp = function(){
+      $scope.startUp = function () {
         // Get All Post List by Current Page
         $scope.getCommentList($scope.currentPage);
       }
@@ -41604,38 +41649,6 @@ app
       };
     }]);
 
-app
-  .controller('LogoutCtrl', [
-    '$scope',
-    '$http',
-    '$location',
-    'COMMON_CONST',
-    function ($scope,
-              $http,
-              $location,
-              COMMON_CONST) {
-
-      // Logout
-      $scope.logout = function () {
-        $http({
-          method: 'POST',
-          url: '/app/logout',
-          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        })
-          .success(function (data) {
-            var result = angular.fromJson(data);
-            if (!angular.isUndefined(result.success) && result.success) {
-              $location.path('/login');
-            } else {
-              $scope.message = COMMON_CONST.CONNECTION_ERROR;
-            }
-          })
-          .error(function (error) {
-            $scope.message = COMMON_CONST.CONNECTION_ERROR;
-          });
-      };
-    }]);
-
 'use strict';
 
 /**
@@ -41653,6 +41666,65 @@ angular.module('webApp')
       'Karma'
     ];
   });
+
+app
+  .controller('MemberCtrl', [
+    '$scope',
+    '$http',
+    '$location',
+    'MemberFactory',
+    'AuthenFactory',
+    'COMMON_CONST',
+    function ($scope,
+              $http,
+              $location,
+              MemberFactory,
+              AuthenFactory,
+              COMMON_CONST) {
+
+      $scope.member = {};
+
+      // Logout
+      $scope.logout = function () {
+        $http({
+          method: 'POST',
+          url: '/member/logout',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+          .success(function (data) {
+            var result = angular.fromJson(data);
+            if (!angular.isUndefined(result.success) && result.success) {
+              $location.path('/login');
+            } else {
+              $scope.message = COMMON_CONST.CONNECTION_ERROR;
+            }
+          })
+          .error(function (error) {
+            $scope.message = COMMON_CONST.CONNECTION_ERROR;
+          });
+      };
+
+      /**
+       * Get Current Member Information
+       */
+      $scope.currentMember = function(){
+        MemberFactory.getCurrentMember()
+          .success(function (data) {
+            var result = angular.fromJson(data);
+            if (!angular.isUndefined(result.success) && result.success) {
+              MemberFactory.set(result.data);
+              $scope.member = MemberFactory.get();
+            } else {
+              $location.path('/login');
+            }
+          })
+          .error(function (error, status) {
+            AuthenFactory.isAuthenticate(status);
+          });
+      };
+
+      $scope.currentMember();
+    }]);
 
 app
   .controller('RegisterCtrl', [
@@ -41750,35 +41822,44 @@ app
     }]);
 
 app
-    .factory('CommentFactory', ['$http', function($http){
-        var urlBase = '/app';
+  .factory('CommentFactory', ['$http', function ($http) {
+    var urlBase = '/comment';
 
-        return{
-            dl: function(page){
-               return $http({
-                    method: 'GET',
-                    url: urlBase + '/commentList',
-                    params: {
-                        'page': page
-                    }
-                });
-            },
-            create: function(param){
-                return $http({
-                    method: 'POST',
-                    url: urlBase + '/createComment',
-                    data: $.param(param),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                });
-            }
-        }
-    }]);
+    return {
+      dl: function (page) {
+        return $http({
+          method: 'GET',
+          url: urlBase + '/list',
+          params: {
+            'page': page
+          }
+        });
+      },
+      view: function (commentId) {
+        return $http({
+          method: 'GET',
+          url: urlBase + '/detail',
+          params: {
+            'commentId': commentId
+          }
+        });
+      },
+      create: function (param) {
+        return $http({
+          method: 'POST',
+          url: urlBase + '/create',
+          data: $.param(param),
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        });
+      }
+    }
+  }]);
 
 app
   .factory('MemberFactory', ['$http','AuthenFactory', function ($http, AuthenFactory) {
     var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
     var member = {};
-    var urlBase = '/app';
+    var urlBase = '/member';
 
     return {
       set: function (mData) {
@@ -41805,6 +41886,12 @@ app
           url: urlBase + '/login',
           data: $.param(param),
           headers: headers
+        });
+      },
+      getCurrentMember: function(){
+        return $http({
+          method: 'GET',
+          url: urlBase + '/currentMember'
         });
       }
     }

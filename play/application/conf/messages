@@ -1,0 +1,2 @@
+exception.password.invalid=Password invalid
+exception.userOrPassword.invalid=User or password invalid

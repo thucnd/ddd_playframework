@@ -2,7 +2,7 @@ app
   .factory('MemberFactory', ['$http','AuthenFactory', function ($http, AuthenFactory) {
     var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
     var member = {};
-    var urlBase = '/app';
+    var urlBase = '/member';
 
     return {
       set: function (mData) {
@@ -29,6 +29,12 @@ app
           url: urlBase + '/login',
           data: $.param(param),
           headers: headers
+        });
+      },
+      getCurrentMember: function(){
+        return $http({
+          method: 'GET',
+          url: urlBase + '/currentMember'
         });
       }
     }

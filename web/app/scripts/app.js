@@ -10,31 +10,30 @@
  */
 var app = angular
   .module('webApp', [
-    //'ngAnimate',
-    //'ngCookies',
-    //'ngResource',
     'ngRoute',
     'routeStyles',
-    //'ngSanitize',
-    //'ngTouch',
     'blockUI',
     'ui.bootstrap'
   ])
-  .config(['$routeProvider', function ($routeProvider) {
+  .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/board/main.html',
-        controller: 'DashboardCtrl',
-        controllerAs: 'Dashboard',
-        css: 'styles/blog.css'
+        controller: 'DashboardCtrl'
+      })
+      .when('/view/:commentId', {
+        templateUrl: 'views/board/detail.html',
+        controller: 'CommentDetailCtrl'
       })
       .when('/login', {
         templateUrl: 'views/login/main.html',
         controller: 'LoginCtrl',
-        controllerAs: 'Login',
         css: 'styles/login.css'
       })
       .otherwise({
-        redirectTo: '/login'
+        redirectTo: '/404.html'
       });
+
+    $locationProvider.html5Mode(true);
+    $locationProvider.hashPrefix('!');
   }]);

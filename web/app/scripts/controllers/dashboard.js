@@ -9,7 +9,6 @@ app
     'COMMON_CONST',
     'AuthenFactory',
     'CommentFactory',
-    'MemberFactory',
     function ($scope,
               $http,
               $location,
@@ -18,13 +17,11 @@ app
               blockUI,
               COMMON_CONST,
               AuthenFactory,
-              CommentFactory,
-              MemberFactory) {
+              CommentFactory) {
       $scope.currentPage = 1;
       $scope.maxComment = COMMON_CONST.MAX_COMMENT;
       $scope.comments = [];
       $scope.message = "";
-      $scope.member = {};
 
       // Display Html
       $scope.displayHtml = function (text) {
@@ -39,12 +36,6 @@ app
         CommentFactory.dl(page)
           .success(function (data) {
             var result = angular.fromJson(data);
-
-            // Update session Information if it null
-            if(angular.isUndefined($scope.member.email) || $scope.member.email == '') {
-              MemberFactory.set(result.session)
-              $scope.member = MemberFactory.get();
-            }
 
             if (result.success) {
               $scope.currentPage = page;
@@ -70,7 +61,7 @@ app
         $scope.getCommentList($scope.currentPage - 1);
       };
 
-      $scope.startUp = function(){
+      $scope.startUp = function () {
         // Get All Post List by Current Page
         $scope.getCommentList($scope.currentPage);
       }

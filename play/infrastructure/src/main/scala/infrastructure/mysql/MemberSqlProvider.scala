@@ -38,6 +38,32 @@ class MemberSqlProvider extends SqlProvider {
   }
 
   /**
+   * Get Member Detail By ID
+   * @param id
+   * @return
+   */
+  def selectById(id: String): Option[Map[String, String]] = {
+    DB.withConnection { implicit connection =>
+      SQL(
+        """
+          SELECT  *
+          FROM    members
+          WHERE   member_id    = {member_id}
+        """
+      ).on(
+          'member_id -> id
+        ).singleOpt().map { row =>
+        Map(
+          "member_id" -> row[String]("members.member_id"),
+          "name" -> row[String]("members.name"),
+          "email" -> row[String]("members.email"),
+          "password" -> row[String]("members.password")
+        )
+      }
+    }
+  }
+
+  /**
    * Create new Member
    * @param member
    * @return

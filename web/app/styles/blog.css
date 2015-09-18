@@ -102,7 +102,6 @@ body {
 
 .blog-info {
   display: block;
-  font-style: italic;
   font-size: 11px;
 }
 
@@ -123,4 +122,14 @@ body {
 
 .board-page {
   cursor: pointer;
+}
+
+
+.blog-view{
+  cursor: pointer;
+
+}
+
+.icon-red {
+  color: red;
 }

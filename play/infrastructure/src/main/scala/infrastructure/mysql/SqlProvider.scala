@@ -7,4 +7,6 @@ import scala.util.Try
  */
 trait SqlProvider {
   def insert(info: Map[String, String]): Try[Int]
+
+  def selectById(id: String): Option[Map[String, String]]
 }
